@@ -1,0 +1,22 @@
+---
+- hosts: "{{ target }}"
+  gather_facts: false
+  become_method: runas
+  become: yes
+  become_user: "Administrator"
+  roles:
+  tasks:
+    - name: Test ping
+      ansible.windows.win_ping:
+  vars:
+    ansible_winrm_transport: ntlm
+    ansible_winrm_port: 5986
+    ansible_user: "Administrator"
+    ansible_password: "{{ win_os_password }}"
+    global_env_path: environments
+    env_path: "{{ global_env_path }}/{{ env }}"
+  vars_files:
+    - "{{ env_path }}/env_vars.yml"
+    - "{{ env_path }}/env_vars_vault.yml"
+    - "{{ global_env_path }}/global_env_vars.yml"
+    - "{{ global_env_path }}/global_env_vars_vault.yml"
